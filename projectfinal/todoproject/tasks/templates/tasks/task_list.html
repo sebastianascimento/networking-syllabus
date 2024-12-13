@@ -1,0 +1,12 @@
+<h1>Lista de Tarefas</h1>
+<a href="{% url 'task_create' %}">Adicionar Nova Tarefa</a>
+<ul>
+    {% for task in tasks %}
+        <li>
+            {{ task.title }} - 
+            {% if task.completed %}✅ Concluído{% else %}❌ Pendente{% endif %}
+            <a href="{% url 'task_update' task.id %}">Editar</a>
+            <a href="{% url 'task_delete' task.id %}">Deletar</a>
+        </li>
+    {% endfor %}
+</ul>
