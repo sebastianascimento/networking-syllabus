@@ -6,7 +6,23 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "8000:8000"  # Porta do host : Porta do container
+      - "8000:8000"
     volumes:
-      - .:/app  # Sincroniza os arquivos do projeto com o container
-    command: python manage.py runserver 0.0.0.0:8000
+      - .:/app
+    networks:
+      - webnet
+
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf  
+    ports:
+      - "80:80"  
+    depends_on:
+      - web  
+    networks:
+      - webnet
+
+networks:
+  webnet:
+    driver: bridge
