@@ -2,11 +2,36 @@
 <a href="{% url 'task_create' %}">Adicionar Nova Tarefa</a>
 <ul>
     {% for task in tasks %}
-        <li>
+        <li id="task-{{ task.id }}">
             {{ task.title }} - 
             {% if task.completed %}✅ Concluído{% else %}❌ Pendente{% endif %}
-            <a href="{% url 'task_update' task.id %}">Editar</a>
-            <a href="{% url 'task_delete' task.id %}">Deletar</a>
+            <a href="{% url 'task_detail' task.id %}">Detalhes</a> | 
+            <a href="{% url 'task_edit' task.id %}">Editar</a> | 
+            <button onclick="deleteTask({{ task.id}})" style="background:none; color:blue; border:none; cursor:pointer; text-decoration:underline;">Deletar</button>
         </li>
     {% endfor %}
 </ul>
+
+<script>
+    function deleteTask(taskId) {
+        fetch(`/api/tasks/${taskId}/delete/`, {
+            method: 'DELETE', 
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token }}',
+            }
+        })
+        .then(response => {
+            if (response.status === 204) {
+                document.getElementById(`task-${taskId}`).remove(); 
+                alert('Tarefa excluída com sucesso');
+            } else {
+                alert('Erro ao excluir a tarefa');
+            }
+        })
+        .catch(error => {
+            alert('Erro ao excluir a tarefa');
+            console.error('Erro:', error);
+        });
+    }
+</script>

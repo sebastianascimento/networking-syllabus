@@ -1,0 +1,12 @@
+<h1>Adicionar Nova Tarefa</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }} 
+    <label for="title">Título:</label>
+    <input type="text" name="title" id="title">
+    <label for="description">Descrição:</label>
+    <textarea name="description" id="description"></textarea>
+    <label for="completed">Concluído:</label>
+    <input type="checkbox" name="completed" id="completed">
+    <button type="submit">Salvar</button>
+</form>
