@@ -138,6 +138,9 @@ REST_FRAMEWORK = {
     ),
 }
 
-
-CSRF_TRUSTED_ORIGINS = ['http://localhost:8000']
-
+CSRF_TRUSTED_ORIGINS = [
+    'https://localhost',
+    'http://localhost',
+    'https://127.0.0.1',
+    'http://127.0.0.1',
+]

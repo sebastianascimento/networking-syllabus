@@ -10,9 +10,9 @@ services:
     volumes:
       - .:/app
     networks:
-      - webnet    
-      - nginxnet  
-      - busyboxnet  
+      - webnet
+      - nginxnet
+      - busyboxnet
 
   nginx:
     image: nginx:latest
@@ -25,16 +25,15 @@ services:
     depends_on:
       - web
     networks:
-      - webnet    
-      - nginxnet  
+      - webnet # Apenas conecte o nginx à rede webnet
 
   busybox:
-    image: busybox:latest
+    image: alpine:latest
+    command: sh -c "while true; do sleep 30; done"
     depends_on:
       - web
     networks:
-      - webnet    
-      - busyboxnet  
+      - busyboxnet # Apenas conecte o busybox à rede busyboxnet
 
 networks:
   webnet:
@@ -42,7 +41,7 @@ networks:
     ipam:
       driver: default
       config:
-        - subnet: 172.28.0.0/16  
+        - subnet: 172.28.0.0/16
   
   nginxnet:
     driver: bridge  
@@ -56,4 +55,4 @@ networks:
     ipam:
       driver: default
       config:
-        - subnet: 172.32.0.0/16  
+        - subnet: 172.32.0.0/16
